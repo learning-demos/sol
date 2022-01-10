@@ -1,0 +1,16 @@
+1.设计用户信息表
+2.编写用户信息表的数据库迁移
+3.数据库迁移工具选型
+4.编写Account对象，包括用户名，密码和其他用户基本信息
+5.在AccountRepository，编写save接口，保存新创建的Account对象
+6.在RegisterUseCase中，编写execute方法，调用AccountRepository中的save接口
+7.在AccountController中，编写create方法，调用RegisterUseCase中的execute方法
+
+8.在构建脚本中添加对Redis的依赖
+9.编写UserSession，包括用户名，登录时间，用户Token等
+10.在UserService中，编写login方法，将UserSession放入Redis，返回UserSession
+11.在AccountController中，编写login方法，调用UserService的login方法，并根据返回的UserSession设置HTTP头
+
+12.在构建脚本中调价JSON的依赖
+13.在存储到Redis时，将对象序列化成JSON，取出时将JSON反序列化成对象
+14.编写AccessFilter，根据待访问地址，确定是否进行用户登录信息校验
