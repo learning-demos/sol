@@ -9,18 +9,34 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.github.dieselniu</groupId>
-    <artifactId>course</artifactId>
+    <artifactId>shop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>course</name>
+    <name>shop</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>2.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.28</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -40,19 +56,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>3.9.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>2.0.2-beta</version>
+            <version>4.2.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.21.0</version>
+            <version>3.22.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -66,19 +76,130 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <configLocation>${basedir}/.circleci/checkstyle.xml</configLocation>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <enableRulesSummary>false</enableRulesSummary>
+                    <excludes>**/generate/**</excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>8.29</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>3.1.12</version>
+                <!--                <configuration>-->
+                <!--                    <excludeFilterFile>ignore.xml</excludeFilterFile>-->
+                <!--                </configuration>-->
+                <dependencies>
+                    <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
+                    <dependency>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs</artifactId>
+                        <version>4.0.0</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>spotbugs</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>6.2.4</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/wxshop</url>
+                    <user>root</user>
+                    <password>123456</password>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>init-test-database</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>migrate</goal>
+                        </goals>
+                        <configuration>
+                            <url>jdbc:mysql://localhost:3307/blogtest?createDatabaseIfNotExist=true</url>
+                            <user>root</user>
+                            <password>123456</password>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.19</version>
+                    </dependency>
+                </dependencies>
             </plugin>
+
+
             <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.2</version>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-check</id>
+                        <!--                        <goals>-->
+                        <!--                            <goal>check</goal>-->
+                        <!--                        </goals>-->
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <element>BUNDLE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>COMPLEXITY</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.60</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
-
 </project>
