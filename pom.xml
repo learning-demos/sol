@@ -101,6 +101,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
@@ -127,14 +128,15 @@
                 </executions>
             </plugin>
 
+
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>6.2.4</version>
                 <configuration>
-                    <url>jdbc:mysql://localhost:3306/wxshop</url>
+                    <url>jdbc:mysql://localhost:3306/wxshop?createDatabaseIfNotExist=true</url>
                     <user>root</user>
-                    <password>123456</password>
+                    <password>root</password>
                 </configuration>
                 <executions>
                     <execution>
@@ -144,9 +146,9 @@
                             <goal>migrate</goal>
                         </goals>
                         <configuration>
-                            <url>jdbc:mysql://localhost:3307/blogtest?createDatabaseIfNotExist=true</url>
+                            <url>jdbc:mysql://127.0.0.1:3306/wxshop?createDatabaseIfNotExist=true</url>
                             <user>root</user>
-                            <password>123456</password>
+                            <password>root</password>
                         </configuration>
                     </execution>
                 </executions>
