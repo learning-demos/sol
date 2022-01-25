@@ -1,4 +1,4 @@
-package com.github.dieselniu.course;
+package com.github.dieselniu.wxshop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
