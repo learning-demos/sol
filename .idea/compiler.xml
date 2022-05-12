@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="course" />
         <module name="sol" />
+        <module name="wxshop" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="course" options="-parameters" />
       <module name="sol" options="-parameters" />
+      <module name="wxshop" options="-parameters" />
     </option>
   </component>
 </project>
