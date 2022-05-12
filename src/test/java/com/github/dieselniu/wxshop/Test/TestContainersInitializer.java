@@ -7,18 +7,20 @@ import org.testcontainers.containers.MariaDBContainer;
 
 @Slf4j
 public class TestContainersInitializer implements BeforeAllCallback {
-    private static MariaDBContainer<?> mysqldb;
+	private static MariaDBContainer<?> mysqldb;
 
-    @Override
-    public void beforeAll(ExtensionContext context) {
-        log.info("Starting test containers...");
-        startMySQL();
-    }
+	@Override
+	public void beforeAll(ExtensionContext context) {
+		log.info("Starting test containers...");
+		startMySQL();
+	}
 
-    private void startMySQL() {
-        if (mysqldb != null) return;
-        mysqldb = new MariaDBContainer<>("mariadb:10.5.8");
-        mysqldb.start();
-        System.setProperty("WX_SHOP_DB_URI", mysqldb.getJdbcUrl());
-    }
+	private void startMySQL() {
+		if (mysqldb != null) {
+			return;
+		}
+		mysqldb = new MariaDBContainer<>("mariadb:10.5.8");
+		mysqldb.start();
+		System.setProperty("WX_SHOP_DB_URI", mysqldb.getJdbcUrl());
+	}
 }
