@@ -19,7 +19,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 	}
 
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		Object tel = SecurityUtils.getSubject().getPrincipal();
 		if (tel != null) {
 			User user = userService.getUserByTel(tel.toString());

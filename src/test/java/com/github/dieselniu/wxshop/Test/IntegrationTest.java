@@ -41,9 +41,22 @@ public abstract class IntegrationTest {
 		return exchange(request);
 	}
 
+	protected TestResponse getWithCookie(String urlTemplate, String cookie, Map<String, Object> params, Object... vars) {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(urlTemplate);
+		params.forEach(builder::queryParam);
+		URI uri = builder.buildAndExpand(vars).encode().toUri();
+		RequestEntity<?> request = new RequestEntity<>(requestHeader(cookie), HttpMethod.GET, uri);
+		return exchange(request);
+	}
+
 	protected TestResponse post(String urlTemplate, Object body, Object... vars) {
 		return exchange(createRequest(urlTemplate, body, vars, HttpMethod.POST));
 	}
+
+	protected TestResponse postWithCookie(String urlTemplate, String cookie, Object body, Object... vars) {
+		return exchange(createRequestWithCookie(urlTemplate, cookie, body, vars, HttpMethod.POST));
+	}
+
 
 	protected TestResponse postFile(String urlTemplate, Object body, Object... vars) {
 		return exchange(createFileRequest(urlTemplate, body, vars, HttpMethod.POST));
@@ -70,10 +83,14 @@ public abstract class IntegrationTest {
 	}
 
 
-
 	private RequestEntity<?> createRequest(String urlTemplate, Object body, Object[] vars, HttpMethod method) {
 		URI uri = UriComponentsBuilder.fromUriString(urlTemplate).buildAndExpand(vars).encode().toUri();
 		return new RequestEntity<>(body, requestHeader(), method, uri);
+	}
+
+	private RequestEntity<?> createRequestWithCookie(String urlTemplate, String cookie, Object body, Object[] vars, HttpMethod method) {
+		URI uri = UriComponentsBuilder.fromUriString(urlTemplate).buildAndExpand(vars).encode().toUri();
+		return new RequestEntity<>(body, requestHeader(cookie), method, uri);
 	}
 
 	private RequestEntity<?> createFileRequest(String urlTemplate, Object body, Object[] vars, HttpMethod method) {
@@ -91,6 +108,12 @@ public abstract class IntegrationTest {
 	private HttpHeaders requestHeader() {
 		HttpHeaders result = new HttpHeaders();
 		result.add("X-CONTACT-ID", currentUserId);
+		return result;
+	}
+
+	private HttpHeaders requestHeader(String cookie) {
+		HttpHeaders result = new HttpHeaders();
+		result.add("Cookie", cookie);
 		return result;
 	}
 

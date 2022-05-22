@@ -17,9 +17,10 @@ public class AuthService {
 		this.smsCodeService = smsCodeService;
 	}
 
-	public void sendVerificationCode(String tel) {
+	public String sendVerificationCode(String tel) {
 		userService.createUseIfNotExist(tel);
 		String correctCode = smsCodeService.sendSmsCode(tel);
 		verificationCodeCheckService.addCode(tel, correctCode);
+		return correctCode;
 	}
 }

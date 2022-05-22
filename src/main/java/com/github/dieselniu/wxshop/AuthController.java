@@ -17,8 +17,8 @@ public class AuthController {
 	}
 
 	@PostMapping("/code")
-	public void code(@RequestBody TelAndCode telAndCode) {
-		authService.sendVerificationCode(telAndCode.getTel());
+	public String code(@RequestBody TelAndCode telAndCode) {
+		return authService.sendVerificationCode(telAndCode.getTel());
 
 	}
 
