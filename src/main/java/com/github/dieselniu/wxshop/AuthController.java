@@ -1,6 +1,8 @@
 package com.github.dieselniu.wxshop;
 
 import com.github.dieselniu.wxshop.service.AuthService;
+import com.github.dieselniu.wxshop.service.LoginResponse;
+import com.github.dieselniu.wxshop.service.UserContext;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +16,26 @@ public class AuthController {
 		this.authService = authService;
 	}
 
-	@GetMapping("/niu")
-	public String niu() {
-		return "ok";
-	}
-
 	@PostMapping("/code")
 	public void code(@RequestBody TelAndCode telAndCode) {
 		authService.sendVerificationCode(telAndCode.getTel());
 
+	}
+
+
+	@GetMapping("/status")
+	public Object loginStatus() {
+		if (UserContext.getCurrentUser() == null) {
+			return LoginResponse.notLogin(false, null);
+		} else {
+			return LoginResponse.login(true, UserContext.getCurrentUser());
+		}
+	}
+
+
+	@GetMapping("/niu")
+	public Object login() {
+		return "ok";
 	}
 
 	@PostMapping("/login")
@@ -32,21 +45,8 @@ public class AuthController {
 		SecurityUtils.getSubject().login(token);
 	}
 
-	public static class TelAndCode {
-		private String code;
-		private String tel;
-
-		public TelAndCode(String code, String tel) {
-			this.code = code;
-			this.tel = tel;
-		}
-
-		public String getCode() {
-			return code;
-		}
-
-		public String getTel() {
-			return tel;
-		}
+	@PostMapping("/logout")
+	public void logout() {
+		SecurityUtils.getSubject().logout();
 	}
 }
