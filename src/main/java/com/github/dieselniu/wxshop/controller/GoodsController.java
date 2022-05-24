@@ -1,5 +1,6 @@
 package com.github.dieselniu.wxshop.controller;
 
+import com.github.dieselniu.wxshop.entity.PageResponse;
 import com.github.dieselniu.wxshop.entity.Response;
 import com.github.dieselniu.wxshop.exception.NotAuthorizationForShopException;
 import com.github.dieselniu.wxshop.exception.ResourceNotFoundException;
@@ -42,6 +43,31 @@ public class GoodsController {
 			return Response.of(e.getMessage(), null);
 		}
 	}
+
+
+	@GetMapping("/goods")
+	public @ResponseBody PageResponse<Goods> getGoods(@RequestParam("pageNum") Integer pageNum,
+	                                                  @RequestParam("pageSize") Integer pageSize,
+	                                                  @RequestParam(value = "shopId", required = false) Integer shopId) {
+
+		return goodService.getGoods(pageNum, pageSize, shopId);
+	}
+
+
+	@PutMapping("/goods")
+	public Response<Goods> updateGoods(Goods goods, HttpServletResponse response) {
+		try {
+			response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+			return Response.of(goodService.updateGoods(goods));
+		} catch (NotAuthorizationForShopException e) {
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+			return Response.of(e.getMessage(), null);
+		} catch (ResourceNotFoundException e) {
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return Response.of(e.getMessage(), null);
+		}
+	}
+
 
 	private void clean(Goods goods) {
 		goods.setId(null);
