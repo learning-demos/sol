@@ -24,13 +24,21 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table schema="wxshop" tableName="USER" domainObjectName="User">
+        <table schema="wxshop" tableName="USER" domainObjectName="User" >
             <property name="useActualColumnNames" value="false"/>
-            <generatedKey column="ID" sqlStatement="MySql" identity="true"/>
-            <columnOverride column="AVATAR_URL" property="avatarUrl"/>
-            <columnOverride column="CREATED_AT" property="createdAt"/>
-            <columnOverride column="UPDATED_AT" property="updatedAt"/>
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
         </table>
-
-    </context>
+        <table schema="wxshop" tableName="SHOP" domainObjectName="Shop" >
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+        <table schema="wxshop" tableName="GOODS" domainObjectName="Goods" >
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+        <table schema="wxshop" tableName="SHOPPING_CART" domainObjectName="ShoppingCart" >
+            <property name="useActualColumnNames" value="false"/>
+            <generatedKey column="ID" sqlStatement="MySql" identity="true" />
+        </table>
+        </context>
 </generatorConfiguration>

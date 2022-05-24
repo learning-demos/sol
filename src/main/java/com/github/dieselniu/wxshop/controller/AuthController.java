@@ -1,5 +1,6 @@
-package com.github.dieselniu.wxshop;
+package com.github.dieselniu.wxshop.controller;
 
+import com.github.dieselniu.wxshop.TelAndCode;
 import com.github.dieselniu.wxshop.service.AuthService;
 import com.github.dieselniu.wxshop.service.LoginResponse;
 import com.github.dieselniu.wxshop.service.UserContext;
