@@ -75,4 +75,5 @@ public class GoodsController {
 		goods.setUpdatedAt(new Date());
 	}
 
+
 }

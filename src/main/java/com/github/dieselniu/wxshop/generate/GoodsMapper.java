@@ -1,10 +1,9 @@
 package com.github.dieselniu.wxshop.generate;
 
-import com.github.dieselniu.wxshop.generate.Goods;
-import com.github.dieselniu.wxshop.generate.GoodsExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface GoodsMapper {

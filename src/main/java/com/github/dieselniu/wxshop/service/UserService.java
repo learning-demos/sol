@@ -3,6 +3,7 @@ package com.github.dieselniu.wxshop.service;
 import com.github.dieselniu.wxshop.dao.UserDao;
 import com.github.dieselniu.wxshop.generate.User;
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -23,7 +24,7 @@ public class UserService {
 		user.setUpdatedAt(new Date());
 		try {
 			userDao.insertUser(user);
-		} catch (PersistenceException exception) {
+		} catch (DuplicateKeyException exception) {
 			return userDao.getUserByTel(tel);
 		}
 		return user;

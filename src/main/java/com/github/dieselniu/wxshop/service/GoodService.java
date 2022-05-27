@@ -59,11 +59,11 @@ public class GoodService {
 	private int countGoods(Integer shopId) {
 		if (shopId == null) {
 			GoodsExample example = new GoodsExample();
-			example.createCriteria().andStatusEqualTo(DataStatus.DELETED.getName());
+			example.createCriteria().andStatusEqualTo(DataStatus.OK.getName());
 			return (int) goodsMapper.countByExample(example);
 		} else {
 			GoodsExample example = new GoodsExample();
-			example.createCriteria().andStatusEqualTo(DataStatus.DELETED.getName())
+			example.createCriteria().andStatusEqualTo(DataStatus.OK.getName())
 				.andShopIdEqualTo(shopId.longValue());
 			return (int) goodsMapper.countByExample(example);
 
