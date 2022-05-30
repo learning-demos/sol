@@ -42,6 +42,7 @@ public class ShiroConfig implements WebMvcConfigurer {
 		pattern.put("/api/login", "anon");
 		pattern.put("/api/status", "anon");
 		pattern.put("/api/logout", "anon");
+		pattern.put("/api/rpc", "anon");
 		pattern.put("/**", "authc");
 
 		Map<String, Filter> filterMap = new LinkedHashMap<>();

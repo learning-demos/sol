@@ -55,6 +55,10 @@ public class GoodsController {
 
 
 	@PutMapping("/goods")
+	//TODO 去除HttpServletResponse,进行统一的异常处理
+	//TODO redis实现分布式登录状态维持
+	//TODO maven多模块的实现
+	//TODO dubbo的配置
 	public Response<Goods> updateGoods(Goods goods, HttpServletResponse response) {
 		try {
 			response.setStatus(HttpServletResponse.SC_NO_CONTENT);

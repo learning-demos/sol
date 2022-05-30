@@ -62,7 +62,7 @@
           AND SHOPPING_CART.STATUS = 'ok'
     </select>
 
-    <resultMap id="getShoppingCartResultMap" type="ShoppingCartData">
+    <resultMap id="getShoppingCartResultMap" type="ShoppingCartOutput">
         <association property="shop" javaType="Shop">
             <id property="id" column="SHOP_ID"/>
             <result property="name" column="SHOP_NAME"/>
@@ -72,7 +72,7 @@
             <result property="createdAt" column="SHOP_CREATED_AT"/>
             <result property="updatedAt" column="SHOP_UPDATED_AT"/>
         </association>
-        <collection property="goods" ofType="ShoppingCartGoods">
+        <collection property="goods" ofType="ShoppingCartOutput">
             <id property="id" column="GOODS_ID"/>
             <result property="name" column="GOODS_NAME"/>
             <result property="description" column="GOODS_DESCRIPTION"/>
